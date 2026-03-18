@@ -1,0 +1,7 @@
+= Development environment Docker image
+
+This repository builds a Docker image of my development environment.
+
+''''
+
+Copyright © 2020-present Kieran Potts, link:./LICENSE.txt[MIT license]
