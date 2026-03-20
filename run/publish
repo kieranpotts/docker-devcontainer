@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+set -e
+
+if [ -z "${DOCKER_USERNAME}" ] || [ -z "${DOCKER_TOKEN}" ]; then
+  echo "Error: DOCKER_USERNAME and DOCKER_TOKEN must be set"
+  exit 1
+fi
+
+version=$(git describe --tags --exact-match 2>/dev/null | sed 's/^v//')
+if [ -z "${version}" ]; then
+  echo "Error: HEAD is not on a Git tag. Tag the commit (eg. git tag v1.0.0) before publishing."
+  exit 1
+fi
+
+echo "Publishing v${version}..."
+
+echo "${DOCKER_TOKEN}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+
+image="kieranpotts/devenv"
+latest="${image}:latest"
+versioned="${image}:${version}"
+
+docker tag "${latest}" "${versioned}"
+
+docker push "${latest}"
+docker push "${versioned}"
+
+docker logout
+
+echo "Done."
