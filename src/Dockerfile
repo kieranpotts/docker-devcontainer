@@ -1,6 +1,6 @@
 FROM debian:bookworm-slim
 
-LABEL maintainer="Kieran Potts <hello@kieranpotts.com>"
+LABEL maintainer="Kieran Potts <work@kieranpotts.com>"
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
