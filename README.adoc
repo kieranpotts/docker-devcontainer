@@ -34,11 +34,46 @@ make build
 
 The image will be added to your locally running instance of Docker.
 
+=== Verifying
+
 Verify the built image with this command:
 
 [source,sh]
 ----
 docker images kieranpotts/devenv:latest
+----
+
+To verify the image works correctly, create a container from it and shell in:
+
+[source,sh]
+----
+docker run -it --rm kieranpotts/devenv:latest bash
+----
+
+Inside the container, run a few checks to confirm the environment is set up as expected:
+
+[source,sh]
+----
+# Check OS.
+cat /etc/os-release
+
+# Check installed tools.
+git --version
+python3 --version
+
+# Check the current user and shell.
+whoami
+echo $SHELL
+
+# Check environment variables
+env
+----
+
+Exit the container when done:
+
+[source,sh]
+----
+exit
 ----
 
 === Publishing
@@ -54,7 +89,7 @@ To publish images to Docker Hub, you must have a Docker Hub account and a person
 5. Name it (eg. `CI image publishing`).
 6. Set permission to *Read & Write*, or *Admin* if using teams.
 7. Click *Generate*.
-8. Copy the token. Is is shown in plain text once only.
+8. Copy the token. It is shown in plain text once only.
 
 [IMPORTANT]
 ======
