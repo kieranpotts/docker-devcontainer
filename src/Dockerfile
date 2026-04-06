@@ -27,7 +27,7 @@ RUN git clone --depth=1 --branch dev https://github.com/kieranpotts/dotfiles.git
 
 # Clone the bootstrap repository (shallow clone) at a specific release
 # and run the bootstrap script.
-RUN git clone --depth=1 --branch v1.0.0 https://github.com/kieranpotts/bootstrap.git /tmp/bootstrap \
+RUN git clone --depth=1 --branch v1.1.0 https://github.com/kieranpotts/bootstrap.git /tmp/bootstrap \
     && cd /tmp/bootstrap \
     && bash ./run/bootstrap.sh \
     && rm -rf /tmp/bootstrap
