@@ -4,9 +4,16 @@ LABEL maintainer="Kieran Potts <work@kieranpotts.com>"
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
+# Update repository lists.
+RUN apt-get update -q
+
 # Install prerequisites for cloning and running the setup scripts.
-RUN apt-get update -q \
-    && apt-get install -y --no-install-recommends ca-certificates git
+RUN apt-get install -y --no-install-recommends ca-certificates git
+
+# Also add SSH client, so that we can pull and push to remote Git repositories
+# over SSH from inside the container. An SSH client is not available by default
+# in the minimal Debian base image.
+RUN apt-get install -y openssh-client
 
 # Install dotfiles first. This creates ~/local.bashrc (among other files),
 # which the bootstrap scripts will detect and write tool init code into
