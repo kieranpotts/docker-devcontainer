@@ -32,7 +32,7 @@ The following command builds an image from `./src/Dockerfile`:
 make build
 ----
 
-The image will be added to your locally running instance of Docker.
+The image build will take several minutes to complete. The image will be added to your locally running instance of Docker.
 
 === Verifying
 
