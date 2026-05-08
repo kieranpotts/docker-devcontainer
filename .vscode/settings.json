@@ -1,0 +1,9 @@
+{
+
+  "[markdown]": {
+    /* Wrap Markdown files at 120 characters. */
+    "editor.wordWrap": "bounded",
+    "editor.wordWrapColumn": 120,
+  },
+
+}
