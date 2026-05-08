@@ -11,9 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Renamed container from `kieranpotts/devenv` to `kieranpotts/devcontainer`
-
 ### Removed
+
+## [1.3.0] - 2026-04-07
+
+### Changed
+
+- Renamed container from `kieranpotts/devenv` to `kieranpotts/devcontainer`
+- Switch to non-root user named `code`
 
 ## [1.2.0] - 2026-04-06
 
