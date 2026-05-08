@@ -2,7 +2,7 @@
 set -e
 
 dockerfile="$(dirname "$0")/../src/Dockerfile"
-image="kieranpotts/devenv:latest"
+image="kieranpotts/devcontainer:latest"
 
 echo "Building ${image}..."
 docker build --tag "${image}" --file "${dockerfile}" .
