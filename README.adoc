@@ -25,11 +25,21 @@ chmod +x run/*
 
 === Building
 
-The following command builds an image from `./src/Dockerfile`:
+The following command builds an image from `./src/Dockerfile`. The `-v` option is OPTIONAL. If not provided, you'll be prompted for it. The value MUST match a tag in the `kieranpotts/bootstrap` repository.
+
+This command pipes the output to a log file, so you can inspect the output of the build process in your own time:
 
 [source,sh]
 ----
-make build
+make build -v v1.5.0 > build.log 2>&1
+----
+
+Alternatively, use `2>&1` to merge stderr into stdout and then pipe to `tee` which will stream to the log file _and_ pass it through to the terminal at the same time. But if you do this, preserve `make`'s exit code (else `tee` will mask it with its own).
+
+[source,sh]
+----
+set -o pipefail
+make build -v v1.5.0 2>&1 | tee build.log
 ----
 
 The image build will take several minutes to complete. The image will be added to your locally running instance of Docker.
@@ -43,7 +53,9 @@ Verify the built image with this command:
 docker images kieranpotts/devcontainer:latest
 ----
 
-To verify the image works correctly, create a container from it and shell in:
+Inspect the `build.log` to confirm that no errors were encountered during the build process. Another useful command is `docker history <image-name>`, which will show each layer/instruction from the Dockerfile.
+
+Finally, do a manual test. Create a container from the image and shell into it:
 
 [source,sh]
 ----

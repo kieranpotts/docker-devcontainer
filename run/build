@@ -1,10 +1,40 @@
 #!/usr/bin/env sh
 set -e
 
+usage() {
+  echo "Usage: $0 [-v BOOTSTRAP_VERSION]" >&2
+  exit 1
+}
+
+bootstrap_version=""
+
+while getopts "v:h" opt; do
+  case "${opt}" in
+    v) bootstrap_version="${OPTARG}" ;;
+    h|*) usage ;;
+  esac
+done
+
+if [ -z "${bootstrap_version}" ]; then
+  printf "Bootstrap version (press Enter to use the Dockerfile default): "
+  read -r bootstrap_version
+fi
+
 dockerfile="$(dirname "$0")/../src/Dockerfile"
 image="kieranpotts/devcontainer:latest"
 
 echo "Building ${image}..."
-docker build --tag "${image}" --file "${dockerfile}" .
+if [ -n "${bootstrap_version}" ]; then
+  docker build \
+    --build-arg "BOOTSTRAP_VERSION=${bootstrap_version}" \
+    --tag "${image}" \
+    --file "${dockerfile}" \
+    .
+else
+  docker build \
+    --tag "${image}" \
+    --file "${dockerfile}" \
+    .
+fi
 
 echo "Done."

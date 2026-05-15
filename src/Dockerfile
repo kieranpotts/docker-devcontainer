@@ -2,6 +2,11 @@ FROM debian:bookworm-slim
 
 LABEL maintainer="Kieran Potts <code@kieranpotts.com>"
 
+# Version of the bootstrap repository to clone and run. Bump this to pull in
+# changes from https://github.com/kieranpotts/bootstrap. This will be overwritten
+# via the `--build-arg` option passed via the `./run/build` script.
+ARG BOOTSTRAP_VERSION=v0.0.0
+
 ENV DEBIAN_FRONTEND="noninteractive"
 
 # Update repository lists.
@@ -36,7 +41,7 @@ RUN cd /home/code/.dotfiles && bash ./install.sh
 
 # Clone the bootstrap repository (shallow clone) at a specific release
 # and run the bootstrap script as the "code" user.
-RUN git clone --depth=1 --branch v1.1.0 https://github.com/kieranpotts/bootstrap.git /tmp/bootstrap \
+RUN git clone --depth=1 --branch "${BOOTSTRAP_VERSION}" https://github.com/kieranpotts/bootstrap.git /tmp/bootstrap \
     && cd /tmp/bootstrap \
     && bash ./run/bootstrap.sh \
     && rm -rf /tmp/bootstrap
