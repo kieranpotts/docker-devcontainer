@@ -1,71 +1,65 @@
-= Docker image for my development environment
+# Docker image for my development environment
 
 This repository builds a Docker container image for the development environment I use for my personal projects.
 
-The image is based on Debian slim and it contains all the essential configuration from my https://github.com/kieranpotts/bootstrap[bootstrap scripts].
+The image is based on Debian slim and it contains all the essential configuration from my [bootstrap scripts](https://github.com/kieranpotts/bootstrap).
 
-The image is used as a base for my devcontainer, which is configured in the https://github.com/kieranpotts/workspace[workspace repository].
+The image is used as a base for my devcontainer, which is configured in the [workspace repository](https://github.com/kieranpotts/workspace).
 
-== Documentation
+## Documentation
 
-=== Requirements
+### Requirements
 
-* Docker
-* Make
-* Git
+- Docker
+- Make
+- Git
 
-=== Prerequisites
+### Prerequisites
 
 Make the `run/*` scripts executable:
 
-[source,sh]
-----
+```sh
 chmod +x run/*
-----
+```
 
-=== Building
+### Building
 
 The following command builds an image from `./src/Dockerfile`. The `-v` option is OPTIONAL. If not provided, you'll be prompted for it. The value MUST match a tag in the `kieranpotts/bootstrap` repository.
 
 This command pipes the output to a log file, so you can inspect the output of the build process in your own time:
 
-[source,sh]
-----
+```sh
 make build -v v1.5.0 > build.log 2>&1
-----
+```
 
 Alternatively, use `2>&1` to merge stderr into stdout and then pipe to `tee` which will stream to the log file _and_ pass it through to the terminal at the same time. But if you do this, preserve `make`'s exit code (else `tee` will mask it with its own).
 
-[source,sh]
-----
+```sh
 set -o pipefail
 make build -v v1.5.0 2>&1 | tee build.log
-----
+```
 
 The image build will take several minutes to complete. The image will be added to your locally running instance of Docker.
 
-=== Verifying
+### Verifying
 
 Verify the built image with this command:
 
-[source,sh]
-----
+```sh
 docker images kieranpotts/devcontainer:latest
-----
+```
 
 Inspect the `build.log` to confirm that no errors were encountered during the build process. Another useful command is `docker history <image-name>`, which will show each layer/instruction from the Dockerfile.
 
 Finally, do a manual test. Create a container from the image and shell into it:
 
-[source,sh]
-----
+```sh
 docker run -it --rm kieranpotts/devcontainer:latest bash
-----
+```
 
 Inside the container, run a few checks to confirm the environment is set up as expected:
 
-[source,sh]
-----
+```sh
 # Check OS.
 cat /etc/os-release
 
@@ -79,129 +73,120 @@ echo $SHELL
 
 # Check environment variables
 env
-----
+```
 
 Exit the container when done:
 
-[source,sh]
-----
+```sh
 exit
-----
+```
 
-=== Publishing
+### Publishing
 
-Images are hosted on https://hub.docker.com/r/kieranpotts/devcontainer[Docker Hub].
+Images are hosted on [Docker Hub](https://hub.docker.com/r/kieranpotts/devcontainer).
 
 To publish images to Docker Hub, you must have a Docker Hub account and a personal access token. Follow the steps below to create a new token:
 
-1. Log in to https://hub.docker.com[hub.docker.com].
-2. Click on your username in the top-right → *Account Settings*.
-3. Go to *Personal Access Tokens*.
-4. Click *Generate New Token*.
+1. Log in to [hub.docker.com](https://hub.docker.com).
+2. Click on your username in the top-right → **Account Settings**.
+3. Go to **Personal Access Tokens**.
+4. Click **Generate New Token**.
 5. Name it (eg. `CI image publishing`).
-6. Set permission to *Read & Write*, or *Admin* if using teams.
-7. Click *Generate*.
+6. Set permission to **Read & Write**, or **Admin** if using teams.
+7. Click **Generate**.
 8. Copy the token. It is shown in plain text once only.
 
-[IMPORTANT]
-======
-Treat the token like a password. Do not commit it to version control. If you do, regenerate it immediately via your Docker Hub account settings.
-======
+> **Important:** Treat the token like a password. Do not commit it to version control. If you do, regenerate it immediately via your Docker Hub account settings.
 
 Set the below environment variables. Optionally, add these to your shell profile (`~/.bashrc`, `~/.zshrc`, etc.) to persist them.
 
-[source,sh]
-----
+```sh
 export DOCKER_USERNAME=kieranpotts
 export DOCKER_TOKEN=<your-personal-access-token>
-----
+```
 
 Tag the HEAD Git commit with a semantic version:
 
-----
+```
 $ git tag -a v[major].[minor].[patch]
-----
+```
 
-It is RECOMMENDED to include a short messages that summarizes the changes in the release:
+It is RECOMMENDED to include a short message that summarizes the changes in the release:
 
-----
+```
 $ git tag -a v2.1.0 -m "Upgrade base image to latest LTS"
-----
+```
 
 Push the new tag:
 
-----
+```
 $ git push origin v2.1.0
-----
+```
 
 Or push any new tags with new commits:
 
-----
+```
 $ git push --follow-tags
-----
+```
 
 Or you can push commits and tags separately:
 
-----
+```
 $ git push
 $ git push --tags
-----
+```
 
 With the HEAD commit tagged, you can run `make publish` to publish the image to Docker Hub:
 
-[source,sh]
-----
+```sh
 make publish
-----
+```
 
 The `publish` script will:
 
-* Authenticate to Docker Hub using your token.
-* Apply a versioned tag, eg. `kieranpotts/devcontainer:1.0.0`, based on the current Git tag.
-* Push the image, with both the versioned and `latest` tags, to Docker Hub.
-* Log out of Docker Hub.
+- Authenticate to Docker Hub using your token.
+- Apply a versioned tag, eg. `kieranpotts/devcontainer:1.0.0`, based on the current Git tag.
+- Push the image, with both the versioned and `latest` tags, to Docker Hub.
+- Log out of Docker Hub.
 
 The image will then be available to pull globally. You can choose to sync your local image with the latest one available from Docker Hub, or pin your image to a specific release:
 
-[source,sh]
-----
+```sh
 docker pull kieranpotts/devcontainer:latest
 docker pull kieranpotts/devcontainer:1.0.0
-----
+```
 
-=== Usage
+### Usage
 
 This image is intended to be used as a base image for a devcontainer. To use it, add the following Dockerfile to your repository:
 
-..devcontainer/Dockerfile
-[source,Dockerfile]
-----
+**.devcontainer/Dockerfile**
+```Dockerfile
 FROM kieranpotts/devcontainer:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 USER code
 WORKDIR /workspace
-----
+```
 
 Alternatively you can pin your devcontainer to a specific release of the image:
 
-----
+```
 FROM kieranpotts/devcontainer:1.3.0
-----
+```
 
 Add the following devcontainer configuration. The container's user is set to `code` and the workspace is mounted at `/workspace`:
 
-..devcontainer/devcontainer.json
-[source,json]
-----
+**.devcontainer/devcontainer.json**
+```json
 {
   "remoteUser": "code",
   "workspaceFolder": "/workspace",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
 }
-----
+```
 
-''''
+---
 
-Copyright © 2025-present Kieran Potts, link:./LICENSE.txt[MIT license]
+Copyright © 2025-present Kieran Potts, [MIT license](./LICENSE.txt)
