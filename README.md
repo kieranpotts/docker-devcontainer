@@ -187,6 +187,6 @@ Add the following devcontainer configuration. The container's user is set to `co
 }
 ```
 
----
+-----
 
 Copyright © 2025-present Kieran Potts, [MIT license](./LICENSE.txt)
