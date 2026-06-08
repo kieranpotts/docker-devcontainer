@@ -24,19 +24,19 @@ chmod +x run/*
 
 ### Building
 
-The following command builds an image from `./src/Dockerfile`. The `-v` option is OPTIONAL. If not provided, you'll be prompted for it. The value MUST match a tag in the `kieranpotts/bootstrap` repository.
+The following command builds an image from `./src/Dockerfile`. The `--bootstrap` and `--dotfiles` options are OPTIONAL. If not provided, you'll be prompted for each. The `--bootstrap` value MUST match a tag in the `kieranpotts/bootstrap` repository, and the `--dotfiles` value MUST match a tag in the `kieranpotts/dotfiles` repository.
 
 This command pipes the output to a log file, so you can inspect the output of the build process in your own time:
 
 ```sh
-make build -v v1.5.0 > build.log 2>&1
+make build --bootstrap v1.5.0 --dotfiles v1.0.0 > build.log 2>&1
 ```
 
 Alternatively, use `2>&1` to merge stderr into stdout and then pipe to `tee` which will stream to the log file _and_ pass it through to the terminal at the same time. But if you do this, preserve `make`'s exit code (else `tee` will mask it with its own).
 
 ```sh
 set -o pipefail
-make build -v v1.5.0 2>&1 | tee build.log
+make build --bootstrap v1.5.0 --dotfiles v1.0.0 2>&1 | tee build.log
 ```
 
 The image build will take several minutes to complete. The image will be added to your locally running instance of Docker.

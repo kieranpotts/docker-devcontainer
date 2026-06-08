@@ -2,9 +2,12 @@
 
 ## [Unreleased]
 
+- Pin the dotfiles version via the `DOTFILES_VERSION` build arg (the `--dotfiles` option on `./run/build`), instead of always tracking the `dev` branch.
+- Renamed the bootstrap version option on `./run/build` from `-v` to `--bootstrap`.
+
 ## [1.4.0] - 2026-05-15
 
-- Upgrade to kieranpotts/bootstap:v1.2.0.
+- Upgrade to kieranpotts/bootstrap:v1.2.0.
 
 ## [1.3.0] - 2026-04-07
 

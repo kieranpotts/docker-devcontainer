@@ -2,16 +2,21 @@
 set -e
 
 usage() {
-  echo "Usage: $0 [-v BOOTSTRAP_VERSION]" >&2
+  echo "Usage: $0 [--bootstrap BOOTSTRAP_VERSION] [--dotfiles DOTFILES_VERSION]" >&2
   exit 1
 }
 
 bootstrap_version=""
+dotfiles_version=""
 
-while getopts "v:h" opt; do
-  case "${opt}" in
-    v) bootstrap_version="${OPTARG}" ;;
-    h|*) usage ;;
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --bootstrap) bootstrap_version="$2"; shift 2 ;;
+    --bootstrap=*) bootstrap_version="${1#*=}"; shift ;;
+    --dotfiles) dotfiles_version="$2"; shift 2 ;;
+    --dotfiles=*) dotfiles_version="${1#*=}"; shift ;;
+    -h|--help) usage ;;
+    *) usage ;;
   esac
 done
 
@@ -20,21 +25,23 @@ if [ -z "${bootstrap_version}" ]; then
   read -r bootstrap_version
 fi
 
+if [ -z "${dotfiles_version}" ]; then
+  printf "Dotfiles version (press Enter to use the Dockerfile default): "
+  read -r dotfiles_version
+fi
+
 dockerfile="$(dirname "$0")/../src/Dockerfile"
 image="kieranpotts/devcontainer:latest"
 
-echo "Building ${image}..."
+set -- --tag "${image}" --file "${dockerfile}"
 if [ -n "${bootstrap_version}" ]; then
-  docker build \
-    --build-arg "BOOTSTRAP_VERSION=${bootstrap_version}" \
-    --tag "${image}" \
-    --file "${dockerfile}" \
-    .
-else
-  docker build \
-    --tag "${image}" \
-    --file "${dockerfile}" \
-    .
+  set -- --build-arg "BOOTSTRAP_VERSION=${bootstrap_version}" "$@"
 fi
+if [ -n "${dotfiles_version}" ]; then
+  set -- --build-arg "DOTFILES_VERSION=${dotfiles_version}" "$@"
+fi
+
+echo "Building ${image}..."
+docker build "$@" .
 
 echo "Done."

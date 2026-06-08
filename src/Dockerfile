@@ -7,6 +7,11 @@ LABEL maintainer="Kieran Potts <code@kieranpotts.com>"
 # via the `--build-arg` option passed via the `./run/build` script.
 ARG BOOTSTRAP_VERSION=v0.0.0
 
+# Version of the dotfiles repository to clone and install. Bump this to pull in
+# changes from https://github.com/kieranpotts/dotfiles. This will be overwritten
+# via the `--build-arg` option passed via the `./run/build` script.
+ARG DOTFILES_VERSION=v0.0.0
+
 ENV DEBIAN_FRONTEND="noninteractive"
 
 # Update repository lists.
@@ -32,7 +37,7 @@ RUN echo 'code ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/code && \
 # (among other files), which the bootstrap scripts will detect and write
 # initialize code into for various tools (NVM, Jabba, phpenv, etc.), rather
 # than writing directly to ~/.bashrc.
-RUN git clone --depth=1 --branch dev https://github.com/kieranpotts/dotfiles.git /home/code/.dotfiles \
+RUN git clone --depth=1 --branch "${DOTFILES_VERSION}" https://github.com/kieranpotts/dotfiles.git /home/code/.dotfiles \
     && chown -R code:code /home/code/.dotfiles
 
 # Switch to the "code" user and run the dotfiles install script.
