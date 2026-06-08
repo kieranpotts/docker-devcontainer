@@ -109,7 +109,14 @@ export DOCKER_USERNAME=kieranpotts
 export DOCKER_TOKEN=<your-personal-access-token>
 ```
 
-Tag the HEAD Git commit with a semantic version:
+Update the CHANGELOG, preparing a new release, and commit it:
+
+```
+$ git add CHANGELOG.md
+$ git commit -m "release: v[major].[minor].[patch]"
+```
+
+Tag the HEAD Git commit with the semantic version:
 
 ```
 $ git tag -a v[major].[minor].[patch]
@@ -121,23 +128,10 @@ It is RECOMMENDED to include a short message that summarizes the changes in the 
 $ git tag -a v2.1.0 -m "Upgrade base image to latest LTS"
 ```
 
-Push the new tag:
-
-```
-$ git push origin v2.1.0
-```
-
-Or push any new tags with new commits:
+Push the new tags and commits:
 
 ```
 $ git push --follow-tags
-```
-
-Or you can push commits and tags separately:
-
-```
-$ git push
-$ git push --tags
 ```
 
 With the HEAD commit tagged, you can run `make publish` to publish the image to Docker Hub:
