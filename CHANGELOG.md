@@ -2,8 +2,10 @@
 
 ## [Unreleased]
 
-- Pin the dotfiles version via the `DOTFILES_VERSION` build arg (the `--dotfiles` option on `./run/build`), instead of always tracking the `dev` branch.
-- Renamed the bootstrap version option on `./run/build` from `-v` to `--bootstrap`.
+- Pin the dotfiles version via the `DOTFILES_VERSION` build arg, instead of always tracking the `dev` branch.
+- Pass the target `BOOTSTRAP_VERSION` and `DOTFILES_VERSION` to `./run/build` as environment variables on the command line.
+- Add pre-commit hooks.
+- Various other maintenance tasks.
 
 ## [1.4.0] - 2026-05-15
 

@@ -1,47 +1,22 @@
 #!/usr/bin/env sh
 set -e
 
-usage() {
-  echo "Usage: $0 [--bootstrap BOOTSTRAP_VERSION] [--dotfiles DOTFILES_VERSION]" >&2
-  exit 1
-}
-
-bootstrap_version=""
-dotfiles_version=""
-
-while [ $# -gt 0 ]; do
-  case "$1" in
-    --bootstrap) bootstrap_version="$2"; shift 2 ;;
-    --bootstrap=*) bootstrap_version="${1#*=}"; shift ;;
-    --dotfiles) dotfiles_version="$2"; shift 2 ;;
-    --dotfiles=*) dotfiles_version="${1#*=}"; shift ;;
-    -h|--help) usage ;;
-    *) usage ;;
-  esac
-done
-
-if [ -z "${bootstrap_version}" ]; then
-  printf "Bootstrap version (press Enter to use the Dockerfile default): "
-  read -r bootstrap_version
-fi
-
-if [ -z "${dotfiles_version}" ]; then
-  printf "Dotfiles version (press Enter to use the Dockerfile default): "
-  read -r dotfiles_version
-fi
-
-dockerfile="$(dirname "$0")/../src/Dockerfile"
+script_dir="$(dirname "$0")"
+dockerfile="${script_dir}/../src/Dockerfile"
 image="kieranpotts/devcontainer:latest"
 
-set -- --tag "${image}" --file "${dockerfile}"
-if [ -n "${bootstrap_version}" ]; then
-  set -- --build-arg "BOOTSTRAP_VERSION=${bootstrap_version}" "$@"
-fi
-if [ -n "${dotfiles_version}" ]; then
-  set -- --build-arg "DOTFILES_VERSION=${dotfiles_version}" "$@"
+if [ -z "${BOOTSTRAP_VERSION}" ] || [ -z "${DOTFILES_VERSION}" ]; then
+  echo "Error: BOOTSTRAP_VERSION and DOTFILES_VERSION must be set, eg." >&2
+  echo "  BOOTSTRAP_VERSION=v1.3.0 DOTFILES_VERSION=v1.0.0 make build" >&2
+  exit 1
 fi
 
-echo "Building ${image}..."
-docker build "$@" .
+echo "Building ${image} (bootstrap ${BOOTSTRAP_VERSION}, dotfiles ${DOTFILES_VERSION})..."
+docker build \
+  --build-arg "BOOTSTRAP_VERSION=${BOOTSTRAP_VERSION}" \
+  --build-arg "DOTFILES_VERSION=${DOTFILES_VERSION}" \
+  --tag "${image}" \
+  --file "${dockerfile}" \
+  .
 
 echo "Done."
