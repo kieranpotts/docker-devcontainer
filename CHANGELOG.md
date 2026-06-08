@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-06-08
+
 - Pin the dotfiles version via the `DOTFILES_VERSION` build arg, instead of always tracking the `dev` branch.
 - Pass the target `BOOTSTRAP_VERSION` and `DOTFILES_VERSION` to `./run/build` as environment variables on the command line.
 - Add pre-commit hooks.
