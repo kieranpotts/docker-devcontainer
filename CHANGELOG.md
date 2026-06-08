@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-05-15
+
+- Upgrade to kieranpotts/bootstap:v1.2.0.
+
 ## [1.3.0] - 2026-04-07
 
 - Renamed container from `kieranpotts/devenv` to `kieranpotts/devcontainer`.
