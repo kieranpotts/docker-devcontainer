@@ -43,7 +43,7 @@ RUN cd /home/code/.dotfiles && bash ./install.sh
 # and run the bootstrap script as the "code" user.
 RUN git clone --depth=1 --branch "${BOOTSTRAP_VERSION}" https://github.com/kieranpotts/bootstrap.git /tmp/bootstrap \
     && cd /tmp/bootstrap \
-    && bash ./run/bootstrap.sh \
+    && ./run/bootstrap \
     && rm -rf /tmp/bootstrap
 
 # Switch back to root so we can clean up the apt cache.
