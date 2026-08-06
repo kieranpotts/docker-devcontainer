@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+- Build the image with `./run/install --profile=agent`, instead of the
+  deprecated `./run/bootstrap` wrapper. The image now gets only the
+  bootstrap's "core" tool set — `BOOTSTRAP_VERSION` must be a tag that
+  supports the flag.
+
 ## [1.5.0] - 2026-06-08
 
 - Pin the dotfiles version via the `DOTFILES_VERSION` build arg, instead of always tracking the `dev` branch.

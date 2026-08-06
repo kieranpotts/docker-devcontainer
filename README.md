@@ -2,7 +2,7 @@
 
 This repository builds a Docker container image for the development environment I use for my personal projects.
 
-The image is based on Debian slim and it contains all the essential configuration from my [bootstrap scripts](https://github.com/kieranpotts/bootstrap).
+The image is based on Debian slim and it contains the agent-profile tool set from my [bootstrap scripts](https://github.com/kieranpotts/bootstrap) — the minimal tooling a coding agent needs to work unattended in a container, rather than the full workstation install.
 
 The image is used as a base for my devcontainer, which is configured in the [workspace repository](https://github.com/kieranpotts/workspace).
 
@@ -25,6 +25,8 @@ chmod +x run/*
 ### Building
 
 The target versions are passed in on the command line via the `BOOTSTRAP_VERSION` and `DOTFILES_VERSION` environment variables. `BOOTSTRAP_VERSION` MUST match a tag in the `kieranpotts/bootstrap` repository, and `DOTFILES_VERSION` MUST match a tag in the `kieranpotts/dotfiles` repository.
+
+The build runs `./run/install --profile=agent` from the bootstrap repository, which installs only the minimal tool set a coding agent needs in a headless container. `BOOTSTRAP_VERSION` MUST therefore be a tag that supports that flag — earlier tags, including the `v1.3.0` used in the examples below, only have `./run/bootstrap` and will fail the build on an unknown argument.
 
 The following command builds an image from `./src/Dockerfile`. It pipes the output to a log file, so you can inspect the output of the build process in your own time:
 
