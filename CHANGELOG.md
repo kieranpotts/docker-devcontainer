@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-08-10
+
 - Build the image with bootstrap's "CLI" toolset: `./run/install --profile=cli`.
 
 ## [1.5.0] - 2026-06-08
