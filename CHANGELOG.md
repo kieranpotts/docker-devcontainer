@@ -2,9 +2,7 @@
 
 ## [Unreleased]
 
-- Build the image with `./run/install --profile=agent`, instead of the deprecated
-  `./run/bootstrap` wrapper. The image now gets only the bootstrap's "core" tool
-  set — `BOOTSTRAP_VERSION` must be a tag that supports the flag.
+- Build the image with bootstrap's "CLI" toolset: `./run/install --profile=cli`.
 
 ## [1.5.0] - 2026-06-08
 

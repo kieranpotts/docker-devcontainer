@@ -3,10 +3,12 @@
 This repository builds a Docker container image for the development environment
 I use for my personal projects.
 
-The image is based on Debian slim and it contains the agent-profile tool set
-from my [bootstrap scripts](https://github.com/kieranpotts/bootstrap) — the
-minimal tooling a coding agent needs to work unattended in a container, rather
-than the full workstation install.
+The image is based on Debian slim and it installs the CLI profile toolset
+from my [bootstrap scripts](https://github.com/kieranpotts/bootstrap):
+
+```sh
+./run/install --profile=cli
+```
 
 The image is used as a base for my devcontainer, which is configured in the
 [workspace repository](https://github.com/kieranpotts/workspace).
@@ -34,17 +36,13 @@ and `DOTFILES_VERSION` environment variables. `BOOTSTRAP_VERSION` MUST match a
 tag in the `kieranpotts/bootstrap` repository, and `DOTFILES_VERSION` MUST match
 a tag in the `kieranpotts/dotfiles` repository.
 
-The build runs `./run/install --profile=agent` from the bootstrap repository,
-which installs only the minimal tool set a coding agent needs in a headless
-container. `BOOTSTRAP_VERSION` MUST therefore be a tag that supports that flag.
-
 The following command builds an image from `./src/Dockerfile`. It pipes the
 output to a log file, so you can inspect the output of the build process in
 your own time:
 
 ```sh
-BOOTSTRAP_VERSION=v1.3.0 \
-  DOTFILES_VERSION=v1.0.0 \
+BOOTSTRAP_VERSION=v1.6.0 \
+  DOTFILES_VERSION=v1.1.0 \
   make build > build.log 2>&1
 ```
 
@@ -55,8 +53,8 @@ mask it with its own).
 
 ```sh
 set -o pipefail
-BOOTSTRAP_VERSION=v1.3.0 \
-  DOTFILES_VERSION=v1.0.0 \
+BOOTSTRAP_VERSION=v1.6.0 \
+  DOTFILES_VERSION=v1.1.0 \
   make build 2>&1 | tee build.log
 ```
 
@@ -148,12 +146,7 @@ Tag the HEAD Git commit with the semantic version:
 $ git tag -a v[major].[minor].[patch]
 ```
 
-It is RECOMMENDED to include a short message that summarizes the changes in
-the release:
-
-```
-$ git tag -a v2.1.0 -m "Upgrade base image to latest LTS"
-```
+Alternatively, use the `make version` or `./run/version` script.
 
 Push the new tags and commits:
 
@@ -202,7 +195,7 @@ WORKDIR /workspace
 
 Alternatively you can pin your devcontainer to a specific release of the image:
 
-```
+```Dockerfile
 FROM kieranpotts/devcontainer:1.3.0
 ```
 

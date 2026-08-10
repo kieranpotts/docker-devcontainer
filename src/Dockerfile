@@ -47,18 +47,15 @@ RUN cd /home/code/.dotfiles && bash ./install.sh
 # Clone the bootstrap repository (shallow clone) at a specific release and run
 # the install script as the "code" user.
 #
-# `--profile=agent` installs only the bootstrap's "core" step set: the minimal
-# tooling a coding agent needs in a headless container. Without it, the build
-# gets every non-GUI step - agent CLIs, TUIs, model servers, a nested Docker
-# Engine, GPU utilities - because `docker build` has no TTY, so the bootstrap's
-# per-tool prompts all auto-accept.
+# `--profile=cli` installs only the bootstrap's "core" step set: the minimal
+# tooling a coding agent needs in a headless container.
 #
 # `BOOTSTRAP_VERSION` MUST therefore be a tag that provides both `run/install`
-# and `--profile=agent`. Older tags do not, and the build will fail on an
+# and `--profile=cli`. Older tags do not, and the build will fail on an
 # unknown argument.
 RUN git clone --depth=1 --branch "${BOOTSTRAP_VERSION}" https://github.com/kieranpotts/bootstrap.git /tmp/bootstrap \
     && cd /tmp/bootstrap \
-    && ./run/install --profile=agent \
+    && ./run/install --profile=cli \
     && rm -rf /tmp/bootstrap
 
 # Switch back to root so we can clean up the apt cache.

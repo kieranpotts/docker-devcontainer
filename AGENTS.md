@@ -23,7 +23,7 @@ SHOULD NOT, OPTIONAL, and MAY are to be interpreted as described in
 - **[src/Dockerfile](./src/Dockerfile)** \
   The image definition. Installs the bootstrap and dotfiles configuration at
   build time, pinned to specific tags via build args. The bootstrap runs as
-  `./run/install --profile=agent`, so the image gets only the bootstrap's
+  `./run/install --profile=cli`, so the image gets only the bootstrap's
   "core" step set, not the full workstation install.
 
 - **[run/build](./run/build)** \
@@ -56,8 +56,7 @@ SHOULD NOT, OPTIONAL, and MAY are to be interpreted as described in
   default to `latest`/`dev`.
 
 - MUST use a `BOOTSTRAP_VERSION` tag that provides `./run/install` and its
-  `--profile=agent` flag. Tags predating those (which only have the
-  `./run/bootstrap` entry script) fail the build on an unknown argument.
+  `--profile=cli` flag.
 
 - SHOULD keep the image's tool set defined upstream, in the bootstrap
   repository's `core_step` call sites, rather than maintaining a second tool
