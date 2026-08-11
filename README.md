@@ -137,7 +137,7 @@ Update the CHANGELOG, preparing a new release, and commit it:
 
 ```
 $ git add CHANGELOG.md
-$ git commit -m "release: v[major].[minor].[patch]"
+$ git commit -m "version: [major].[minor].[patch]"
 ```
 
 Tag the HEAD Git commit with the semantic version:
