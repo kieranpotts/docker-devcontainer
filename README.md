@@ -1,10 +1,9 @@
-# Docker image for my development environment
+# Devcontainer Docker image
 
-This repository builds a Docker container image for the development environment
-I use for my personal projects.
+**Build script for a Docker image for use in devcontainers.**
 
-The image is based on Debian slim and it installs the CLI profile toolset
-from my [bootstrap scripts](https://github.com/kieranpotts/bootstrap):
+The built Docker image is based on Debian slim and it installs the CLI profile
+toolset from my [bootstrap scripts](https://github.com/kieranpotts/bootstrap):
 
 ```sh
 ./run/install --profile=cli
