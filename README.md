@@ -41,7 +41,7 @@ output to a log file, so you can inspect the output of the build process in
 your own time:
 
 ```sh
-BOOTSTRAP_VERSION=v1.6.0 \
+BOOTSTRAP_VERSION=v1.7.0 \
   DOTFILES_VERSION=v1.1.0 \
   make build > build.log 2>&1
 ```
@@ -53,7 +53,7 @@ mask it with its own).
 
 ```sh
 set -o pipefail
-BOOTSTRAP_VERSION=v1.6.0 \
+BOOTSTRAP_VERSION=v1.7.0 \
   DOTFILES_VERSION=v1.1.0 \
   make build 2>&1 | tee build.log
 ```

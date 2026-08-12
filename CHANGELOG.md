@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Upgrade to kieranpotts/bootstrap:v1.7.0.
+
 ## [1.6.0] - 2026-08-10
 
 - Build the image with bootstrap's "CLI" toolset: `./run/install --profile=cli`.
