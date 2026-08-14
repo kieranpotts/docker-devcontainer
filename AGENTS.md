@@ -71,11 +71,21 @@ SHOULD NOT, OPTIONAL, and MAY are to be interpreted as described in
 
 ## References
 
-This project follows Kieran Potts' technical standards. Read the relevant
-standard(s) below for the current task. Their RFC 2119 rules MUST be followed
-unless explicitly overridden elsewhere in this file.
+The following technical standards (TS) govern this project. Fetch and ingest
+the relevant standards as-and-when required for the task at hand.
 
-- **[TS-9: Version Control](https://kieranpotts.com/standards/009)**
-- **[TS-11: Versioning](https://kieranpotts.com/standards/011)**
-- **[TS-58: Docker](https://kieranpotts.com/standards/058)**
-- **[TS-60: GitHub Actions](https://kieranpotts.com/standards/060)**
+- [**TS-9: Version Control**](https://kieranpotts.com/standards/009) \
+  Use when working with Git. Covers commits, branching, merging, integration
+  strategies, cutting releases, and configuring Git/PR/CI tooling.
+
+- [**TS-11: Versioning**](https://kieranpotts.com/standards/011) \
+  Use when choosing a versioning scheme, formatting version strings, or tagging
+  releases (SemVer, CalVer).
+
+- [**TS-58: Docker**](https://kieranpotts.com/standards/058) \
+  Use when designing Dockerfiles, building Docker images, or running Docker
+  containers.
+
+- [**TS-60: GitHub Actions**](https://kieranpotts.com/standards/060) \
+  Use when designing, authoring, reviewing, or securing GitHub Actions workflows
+  or custom actions.
