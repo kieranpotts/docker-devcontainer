@@ -2,3 +2,4 @@
 
 - [Building](./building.md)
 - [Publishing](./publishing.md)
+- [Repository settings](./repository-settings.md)
