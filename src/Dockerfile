@@ -67,6 +67,14 @@ RUN rm -rf /var/lib/apt/lists/*
 # Restore the non-root default user.
 USER code
 
+# Add user-level bin directories to PATH for every process in the container, not
+# only interactive shells. pipx tools and Poetry are installed into ~/.local/bin,
+# and mise links the tools that a project pins into its shims directory.
+# ~/.bashrc adds both directories to PATH, but only interactive Bash shells
+# read ~/.bashrc. Commands run any other way - via `docker exec`, editor tasks,
+# Git hooks, or coding agents - would otherwise not find those tools.
+ENV PATH="/home/code/.local/share/mise/shims:/home/code/.local/bin:${PATH}"
+
 WORKDIR /data
 VOLUME ["/data"]
 
