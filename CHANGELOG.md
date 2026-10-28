@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Upgrade to kieranpotts/bootstrap:v1.12.1.
+- Upgrade to kieranpotts/dotfiles:v1.3.0.
 - Add `~/.local/bin` and mise's shims directory to `PATH` in the image, so that
   pipx tools, Poetry, and mise-managed tools are found outside interactive
   shells, too.
