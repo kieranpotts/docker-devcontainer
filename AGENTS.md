@@ -27,8 +27,10 @@ SHOULD NOT, OPTIONAL, and MAY are to be interpreted as described in
   "core" step set, not the full workstation install.
 
 - **[run/build](./run/build)** \
-  Builds the image from `src/Dockerfile`, reading `BOOTSTRAP_VERSION` and
-  `DOTFILES_VERSION` from the environment.
+  Builds the image from `src/Dockerfile`, passing in the bootstrap and
+  dotfiles versions as the `BOOTSTRAP_VERSION` and `DOTFILES_VERSION` build
+  args. Reads them from the environment variables of the same names, and
+  prompts for any that aren't set.
 
 - **[run/publish](./run/publish)** \
   Tags and pushes the built image to Docker Hub
@@ -40,9 +42,11 @@ SHOULD NOT, OPTIONAL, and MAY are to be interpreted as described in
 ## Tools
 
 - `make build` \
-  Builds the image. Requires `BOOTSTRAP_VERSION` and `DOTFILES_VERSION`
-  environment variables, matching tags in the `bootstrap` and `dotfiles`
-  repositories respectively.
+  Builds the image. Takes the bootstrap and dotfiles versions, matching tags in
+  the `bootstrap` and `dotfiles` repositories respectively, from the
+  `BOOTSTRAP_VERSION` and `DOTFILES_VERSION` environment variables. Prompts
+  for any that aren't set, which needs a terminal, so set both to build
+  unattended.
 
 - `make publish` \
   Publishes the built image to Docker Hub. Requires `DOCKER_USERNAME` and

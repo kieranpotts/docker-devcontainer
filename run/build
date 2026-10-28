@@ -5,16 +5,36 @@ script_dir="$(dirname "$0")"
 dockerfile="${script_dir}/../src/Dockerfile"
 image="kieranpotts/devcontainer:latest"
 
-if [ -z "${BOOTSTRAP_VERSION}" ] || [ -z "${DOTFILES_VERSION}" ]; then
-  echo "Error: BOOTSTRAP_VERSION and DOTFILES_VERSION must be set, eg." >&2
-  echo "  BOOTSTRAP_VERSION=v1.3.0 DOTFILES_VERSION=v1.0.0 make build" >&2
-  exit 1
-fi
+# Prompts for a tag of the named upstream repository, adding the leading 'v'
+# if it was left off. Prompts on the terminal directly, rather than
+# stdin/stdout, so the prompts still work when the build output is redirected
+# to a log file.
+prompt_version() {
+  if ! { : < /dev/tty; } 2>/dev/null; then
+    echo "Error: no terminal to prompt for the $1 version. Set $2 instead." >&2
+    exit 1
+  fi
+  printf "Enter the %s version (eg. v1.0.0): " "$1" > /dev/tty
+  read -r answer < /dev/tty
+  if [ -z "${answer}" ]; then
+    echo "Error: no $1 version entered." >&2
+    exit 1
+  fi
+  case "${answer}" in
+    v*) echo "${answer}" ;;
+    *) echo "v${answer}" ;;
+  esac
+}
 
-echo "Building ${image} (bootstrap ${BOOTSTRAP_VERSION}, dotfiles ${DOTFILES_VERSION})..."
+# Use the versions from the environment, if set, so the build can run
+# unattended. Otherwise, prompt for them.
+bootstrap_version="${BOOTSTRAP_VERSION:-$(prompt_version bootstrap BOOTSTRAP_VERSION)}"
+dotfiles_version="${DOTFILES_VERSION:-$(prompt_version dotfiles DOTFILES_VERSION)}"
+
+echo "Building ${image} (bootstrap ${bootstrap_version}, dotfiles ${dotfiles_version})..."
 docker build \
-  --build-arg "BOOTSTRAP_VERSION=${BOOTSTRAP_VERSION}" \
-  --build-arg "DOTFILES_VERSION=${DOTFILES_VERSION}" \
+  --build-arg "BOOTSTRAP_VERSION=${bootstrap_version}" \
+  --build-arg "DOTFILES_VERSION=${dotfiles_version}" \
   --tag "${image}" \
   --file "${dockerfile}" \
   .

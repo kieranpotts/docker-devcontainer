@@ -5,6 +5,9 @@
 - Add `~/.local/bin` and mise's shims directory to `PATH` in the image, so that
   pipx tools, Poetry, and mise-managed tools are found outside interactive
   shells, too.
+- Prompt for the bootstrap and dotfiles versions in `./run/build`, if they
+  aren't set in the `BOOTSTRAP_VERSION` and `DOTFILES_VERSION` environment
+  variables.
 
 ## [1.7.0] - 2026-08-12
 
