@@ -69,11 +69,13 @@ USER code
 
 # Add user-level bin directories to PATH for every process in the container, not
 # only interactive shells. pipx tools and Poetry are installed into ~/.local/bin,
-# and mise links the tools that a project pins into its shims directory.
-# ~/.bashrc adds both directories to PATH, but only interactive Bash shells
-# read ~/.bashrc. Commands run any other way - via `docker exec`, editor tasks,
-# Git hooks, or coding agents - would otherwise not find those tools.
-ENV PATH="/home/code/.local/share/mise/shims:/home/code/.local/bin:${PATH}"
+# mise links the tools that a project pins into its shims directory, and NVM
+# points ~/.nvm/current at the default Node.js version. ~/.bashrc sets these
+# up, but only interactive Bash shells read ~/.bashrc. Commands run any other
+# way - via `docker exec`, editor tasks, Git hooks, or coding agents - would
+# otherwise not find those tools. mise's shims come first, so a Node.js version
+# pinned in a project's `mise.toml` takes precedence over NVM's default.
+ENV PATH="/home/code/.local/share/mise/shims:/home/code/.local/bin:/home/code/.nvm/current/bin:${PATH}"
 
 WORKDIR /data
 VOLUME ["/data"]
