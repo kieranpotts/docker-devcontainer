@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.10.0] - 2026-10-29
+
 - Add NVM's default Node.js version (`~/.nvm/current/bin`) to `PATH` in the
   image, so that `node` and `npm` are found outside interactive shells, too.
 - Requires kieranpotts/bootstrap:v1.13.1, which maintains the `~/.nvm/current`
