@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-10-29
+
 - Upgrade to kieranpotts/bootstrap:v1.13.0.
 - Upgrade to kieranpotts/dotfiles:v1.3.0.
 
