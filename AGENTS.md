@@ -41,6 +41,10 @@ SHOULD NOT, OPTIONAL, and MAY are to be interpreted as described in
 
 ## Tools
 
+Both commands need Docker, so run them in a terminal on the host. The
+workspace devcontainer has no Docker, and the scripts stop with an error
+when run in that environment.
+
 - `make build` \
   Builds the image. Takes the bootstrap and dotfiles versions, matching tags in
   the `bootstrap` and `dotfiles` repositories respectively, from the

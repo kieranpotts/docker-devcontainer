@@ -1,6 +1,13 @@
 #!/usr/bin/env sh
 set -e
 
+# Docker runs on the host only. The workspace devcontainer has no Docker, so
+# stop with a clear message there, rather than `docker: command not found`.
+if ! command -v docker >/dev/null 2>&1; then
+  echo "Error: Docker not found. Run this script in a terminal on the host, not in the devcontainer." >&2
+  exit 1
+fi
+
 script_dir="$(dirname "$0")"
 dockerfile="${script_dir}/../src/Dockerfile"
 image="kieranpotts/devcontainer:latest"
